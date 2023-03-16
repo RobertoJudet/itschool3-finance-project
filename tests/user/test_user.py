@@ -17,7 +17,8 @@ class UserTestCase(unittest.TestCase):
     @unittest.skip("TODO homework")
     def test_it_sets_empty_list_if_we_do_not_specify_stock(self):
 
-    @unittest.skip("TODO Homerok")
+
+    @unittest.skip("Homework")
     def test_it_sets_the_stock_we_give(self):
         # set  a list of 3 strings
 
