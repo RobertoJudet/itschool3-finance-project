@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import logging
 from fastapi import FastAPI, Request
 from fastapi_utils.tasks import repeat_every
@@ -14,10 +15,14 @@ logging.basicConfig(
     level=logging.DEBUG,
     format="%(asctime)s _ %(levelname)s _ %(name)s _ %(message)s",
 )
+=======
+from fastapi import FastAPI
+>>>>>>> fb83cf8 (Add initial spec for api)
 
 app = FastAPI(
     debug=True,
     title="Fintech Portfolio API",
+<<<<<<< HEAD
     # TODO add to README
     description="A webserver with a REST API for keeping track of your different financial assets,"
     " stocks & crypto, and see/compare their evolution",
@@ -55,3 +60,13 @@ if __name__ == "__main__":
         logging.warning("Keyboard interrupt.")
     except Exception as e:
         logging.warning("Webserver has stopped. Reason: " + str(e))
+=======
+    description="A webserver with a REST API for keeping track of your different financial assets,"
+    " stock & crypto, and see/compare their evolution",
+    version="0.0.1",
+)
+
+if __name__ == "__main__":
+    import subprocess
+    subprocess.run(["uvicorn", "finance-project.main:app", "--reload"])
+>>>>>>> fb83cf8 (Add initial spec for api)
