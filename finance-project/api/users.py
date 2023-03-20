@@ -8,6 +8,11 @@ def get_all_users():
     return []
 
 
+@users_router.delete("/")
+def delete_user():
+    pass
+
+
 @users_router.post("/")
-def create_a_user():
+def create_a_user(username):
     pass
