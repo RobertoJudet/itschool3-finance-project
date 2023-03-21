@@ -2,6 +2,10 @@ from domain.user.user import User
 import re
 
 
+class InvalidUsername(Exception):
+    pass
+
+
 class UsernameNotValid(Exception):
     def __init__(self, username: str):
         super().__init__(
@@ -12,7 +16,7 @@ class UsernameNotValid(Exception):
 class UsernameNotCorrect(Exception):
     def __init__(self, username: str):
         super().__init__(
-            f"Username '{username}' is not valid. It contains unwanted characaters!"
+            f"Username '{username}' is not valid. It contains unwanted characters!"
         )
 
 
@@ -28,3 +32,8 @@ class UserFactory:
             raise UsernameNotValid(username)
         if not re.match("^[A-Za-z0-9_-]*$", username):
             raise UsernameNotCorrect(username)
+
+    def make(self, username: str):
+        if len(username) < 6:
+            raise InvalidUsername
+        return User(username)
