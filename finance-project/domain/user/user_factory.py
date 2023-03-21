@@ -9,6 +9,13 @@ class UsernameNotValid(Exception):
         )
 
 
+class UsernameNotCorrect(Exception):
+    def __init__(self, username: str):
+        super().__init__(
+            f"Username '{username}' is not valid. It contains unwanted characaters!"
+        )
+
+
 class UserFactory:
     @classmethod
     def create(cls, username: str) -> User:
@@ -20,4 +27,4 @@ class UserFactory:
         if not 6 < len(username) < 20:
             raise UsernameNotValid(username)
         if not re.match("^[A-Za-z0-9_-]*$", username):
-            raise UsernameNotValid(username)
+            raise UsernameNotCorrect(username)
