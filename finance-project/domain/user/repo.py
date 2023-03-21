@@ -25,8 +25,3 @@ class UserRepo:
 
     def get_all(self) -> list[User]:
         return self.__users
-
-    def get_by_username(self, username: str) -> User:
-        for u in self.__users:
-            if u.username == username:
-                return u
