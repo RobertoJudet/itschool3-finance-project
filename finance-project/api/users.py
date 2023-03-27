@@ -1,3 +1,4 @@
+import yfinance
 from fastapi import APIRouter
 
 from domain.user.repo import UserRepo
@@ -5,6 +6,7 @@ from domain.user.factory import UserFactory
 from api.models import UserAdd, UserInfo
 
 users_router = APIRouter(prefix="/users")
+
 
 repo = UserRepo("main_users.json")
 
@@ -28,3 +30,4 @@ def create_a_user(new_user: UserAdd):
 @users_router.delete("")
 def delete(new_user: UserAdd):
     pass
+
