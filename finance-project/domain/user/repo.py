@@ -1,6 +1,7 @@
 import json
 
 from domain.user.user import User
+import uuid
 
 
 class UserRepo:
@@ -18,11 +19,12 @@ class UserRepo:
     def add(self, new_user: User):
         self.__users.append(new_user)
         users_info = [x.username for x in self.__users]
-        # TODO homework refactor with
+        # TODO homework refactor with id
         users_json = json.dumps(users_info)
         file = open(self.file_path, "w")
         file.write(users_json)
         file.close()
+
 
     def get_all(self) -> list[User]:
         return self.__users
