@@ -39,6 +39,7 @@
 #         return User(username)
 
 from domain.user.user import User
+import uuid
 
 
 class InvalidUsername(Exception):
@@ -46,7 +47,15 @@ class InvalidUsername(Exception):
 
 
 class UserFactory:
-    def make(self, username: str) -> User:
+    def make_new(self, username: str) -> User:
         if len(username) < 6:
             raise InvalidUsername
-        return User(username)
+        user_uuid = uuid.uuid4()
+        return User(user_uuid, username)
+
+    def make_from_persistance(self, info: tuple) -> User:
+        return User(
+            uuid=uuid.UUID(info[0]),
+            username=info[1],
+            stocks=info[2],
+        )
