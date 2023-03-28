@@ -2,8 +2,12 @@ from pydantic import BaseModel, Field
 
 
 class UserAdd(BaseModel):
-    name: str = Field(description="Full name")
+    username: str = Field(description="Alphanumeric username between 6 and 20 chars")
 
 
-class UserInfo(UserAdd):
-    stocks: list = Field(description="A list of stocks")
+class UserInfo(BaseModel):
+    username: str
+    stocks: list[str]
+
+    class Config:
+        orm_mode = True
