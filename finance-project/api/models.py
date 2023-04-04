@@ -32,9 +32,10 @@ class AssetInfoUser(AssetInfoBase):
 class AssetInfoPrice(AssetInfoBase):
     current_price: float
     currency: str
-    # TODO astea 3 de jos cu adaugare in asset
-    # today_low_price: float
-    # today_high_price: float
-    # open_price: float
+    today_low_price: float
+    today_high_price: float
+    open_price: float
     close_price: float
     fifty_day_price: float
+    up_or_down_percentage: float
+

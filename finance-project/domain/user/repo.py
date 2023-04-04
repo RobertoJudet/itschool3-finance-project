@@ -1,5 +1,6 @@
 import json
 
+from domain.user import user
 from domain.user.factory import UserFactory
 from domain.user.user import User
 

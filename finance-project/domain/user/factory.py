@@ -40,16 +40,23 @@
 
 from domain.user.user import User
 import uuid
+import re
 
 
 class InvalidUsername(Exception):
     pass
 
 
+class UserNameNotCorrect(Exception):
+    pass
+
+
 class UserFactory:
     def make_new(self, username: str) -> User:
-        if len(username) < 6:
+        if 20 < len(username) < 6:
             raise InvalidUsername
+        if not re.match("^[A-Za-z0-9_-]*$", username):
+            raise UserNameNotCorrect(username)
         user_uuid = uuid.uuid4()
         return User(user_uuid, username)
 
