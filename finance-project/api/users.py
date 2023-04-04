@@ -3,12 +3,13 @@ from fastapi import APIRouter
 from domain.asset.factory import AssetFactory
 from domain.user.repo import UserRepo
 from domain.user.factory import UserFactory
-from api.models import UserAdd, UserInfo, AssetInfo
+from api.models import UserAdd, UserInfo, AssetInfoUser
+from persistence.user_file import UserPersistenceFile
 
 users_router = APIRouter(prefix="/users")
 
-
-repo = UserRepo("main_users.json")
+user_persistence = UserPersistenceFile("main_users.json")
+repo = UserRepo(user_persistence)
 
 
 @users_router.get("", response_model=list[UserInfo])
@@ -21,6 +22,7 @@ def get_user(username: str):
     return repo.get_by_username(username)
 
 
+# TODO fix api, return asset info
 @users_router.post("", response_model=UserInfo)
 def create_a_user(new_user: UserAdd):
     user = UserFactory().make_new(new_user.username)
@@ -33,7 +35,7 @@ def delete_by_username(username: str):
     pass
 
 
-@users_router.post("/{user_id}/assets", response_model=AssetInfo)
+@users_router.post("/{user_id}/assets", response_model=AssetInfoUser)
 def add_asset_to_user(user_id: str, ticker: str):
     asset = AssetFactory().make_new(ticker)
     print(asset.__dict__)
