@@ -10,6 +10,8 @@ class Asset:
         self.__sector = sector
         self.__yfin = yfinance.Ticker(ticker)
 
+
+
     @property
     def ticker(self) -> str:
         return self.__ticker
@@ -28,15 +30,13 @@ class Asset:
 
     @property
     def current_price(self) -> float:
-        price = self.fast_info()["lastPrice"]
+        price = self.__yfin.fast_info["lastPrice"]
         return round(price, 2)
 
-    def fast_info(self):
-        return self.__yfin.fast_info
 
     @property
     def currency(self) -> str:
-        return self.fast_info()["currency"]
+        return self.__yfin.fast_info["currency"]
 
     @property
     def close_price(self) -> float:
@@ -60,13 +60,8 @@ class Asset:
 
     @property
     def evolution(self):
-        evolution = (
+        evolution = ((
             self.__yfin.fast_info["lastPrice"] - self.__yfin.fast_info["previousClose"]
-        ) / self.__yfin.fast_info["previousClose"]
+        ) / self.__yfin.fast_info["previousClose"]) * 100
         return evolution
-
-    # TODO extract the call self.__yfin.fast_info to not have duplicate code
-
-    # TODO a property, in percentage how much it went up or down
-    # current_price & closed_price
 
