@@ -38,4 +38,3 @@ class AssetInfoPrice(AssetInfoBase):
     close_price: float
     fifty_day_price: float
     up_or_down_percentage: float
-

@@ -41,10 +41,14 @@ from domain.asset.factory import AssetFactory
 from domain.user.repo import UserRepo
 from domain.user.factory import UserFactory
 from api.models import UserAdd, UserInfo, AssetInfoUser
+from persistence.user_file import UserPersistenceFile
 
 users_router = APIRouter(prefix="/users")
 
-repo = UserRepo("main_user.json")
+user_persistence = UserPersistenceFile("main_user.json")
+repo = UserRepo(user_persistence)
+
+
 # Homework 1 for Project
 # implement get, create and delete user in domain too (user repo & user factory)
 # also create api models
