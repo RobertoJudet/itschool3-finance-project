@@ -38,14 +38,17 @@
 from fastapi import APIRouter
 
 from domain.asset.factory import AssetFactory
+from domain.asset.repo import AssetRepo
 from domain.user.repo import UserRepo
 from domain.user.factory import UserFactory
-from api.models import UserAdd, UserInfo, AssetInfoUser
+from api.models import UserAdd, UserInfo, AssetInfoUser, AssetAdd
 from persistence.user_file import UserPersistenceFile
+from persistence.user_sqlite import UserPersistenceSqlite
 
 users_router = APIRouter(prefix="/users")
 
-user_persistence = UserPersistenceFile("main_user.json")
+# user_persistence = UserPersistenceFile("main_user.json")
+user_persistence = UserPersistenceSqlite()
 repo = UserRepo(user_persistence)
 
 
@@ -64,9 +67,9 @@ def get_all_users():
     return repo.get_all()
 
 
-@users_router.get("/{username}", response_model=UserInfo)
-def get_user(username: str):
-    return repo.get_by_username(username)
+@users_router.get("/{user_id}", response_model=UserInfo)
+def get_user(user_id: str):
+    return repo.get_by_id(user_id)
 
 
 @users_router.post("", response_model=UserInfo)
@@ -81,7 +84,9 @@ def create_a_user(new_user: UserAdd):
 
 # TODO fix api return asset info
 @users_router.post("/{user_id}/asset", response_model=AssetInfoUser)
-def add_asset_to_user(user_id: str, ticker: str):
-    asset = AssetFactory().make_new(ticker)
-    print(asset.__dict__)
-    return asset
+def add_asset_to_user(user_id: str, asset: AssetAdd):
+    new_asset = AssetFactory().make_new(asset.ticker)
+    user = repo.get_by_id(user_id)
+    # user.add_stock(new_asset)
+    AssetRepo().add_to_user(user, new_asset)
+    return new_asset

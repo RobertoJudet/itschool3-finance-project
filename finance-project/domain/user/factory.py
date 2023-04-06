@@ -64,5 +64,4 @@ class UserFactory:
         return User(
             uuid=uuid.UUID(info[0]),
             username=info[1],
-            stocks=info[2],
         )
