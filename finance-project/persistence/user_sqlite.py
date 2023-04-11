@@ -9,7 +9,10 @@ class UserPersistenceSqlite(UserPersistenceInterface):
         with sqlite3.connect("main_users.db") as conn:
             cursor = conn.cursor()
             # TODO try except, return empty list if no db
-            cursor.execute("SELECT * FROM users")
+            try:
+                cursor.execute("SELECT * FROM users")
+            except:
+                return []
             users_info = cursor.fetchall()
         factory = UserFactory()
         users = [factory.make_from_persistance(x) for x in users_info]

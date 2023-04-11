@@ -35,7 +35,7 @@
 # username should be at least 6 chars and max 20 chars, it can only contain letter, numbers & -
 # save the user list in a file
 
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
 
 from domain.asset.factory import AssetFactory
 from domain.asset.repo import AssetRepo
@@ -47,9 +47,11 @@ from persistence.user_sqlite import UserPersistenceSqlite
 
 users_router = APIRouter(prefix="/users")
 
-# user_persistence = UserPersistenceFile("main_user.json")
-user_persistence = UserPersistenceSqlite()
-repo = UserRepo(user_persistence)
+
+def get_user_repo() -> UserRepo:
+    #  user_persistence = UserPersistenceFile("main_user.json")
+    user_persistence = UserPersistenceSqlite()
+    return UserRepo(user_persistence)
 
 
 # Homework 1 for Project
@@ -62,18 +64,18 @@ repo = UserRepo(user_persistence)
 # TODO GET /users/{user_id}
 
 
-@users_router.get("", response_model=list[UserInfo])
-def get_all_users():
+@users_router.get("", response_model=list[UserInfo], )
+def get_all_users(repo=Depends(get_user_repo)):
     return repo.get_all()
 
 
 @users_router.get("/{user_id}", response_model=UserInfo)
-def get_user(user_id: str):
+def get_user(user_id: str, repo=Depends(get_user_repo)):
     return repo.get_by_id(user_id)
 
 
 @users_router.post("", response_model=UserInfo)
-def create_a_user(new_user: UserAdd):
+def create_a_user(new_user: UserAdd,repo=Depends(get_user_repo)):
     user = UserFactory().make_new(new_user.username)
     repo.add(user)
     return user
@@ -84,9 +86,9 @@ def create_a_user(new_user: UserAdd):
 
 # TODO fix api return asset info
 @users_router.post("/{user_id}/asset", response_model=AssetInfoUser)
-def add_asset_to_user(user_id: str, asset: AssetAdd):
+def add_asset_to_user(user_id: str, asset: AssetAdd, repo=Depends(get_user_repo)):
     new_asset = AssetFactory().make_new(asset.ticker)
     user = repo.get_by_id(user_id)
-    # user.add_stock(new_asset)
+    user.add_stock(new_asset)
     AssetRepo().add_to_user(user, new_asset)
     return new_asset
