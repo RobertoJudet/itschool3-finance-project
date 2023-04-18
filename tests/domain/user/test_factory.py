@@ -1,4 +1,6 @@
 import unittest
+import uuid
+
 from domain.user.factory import UserFactory, InvalidUsername
 from domain.user.user import User
 

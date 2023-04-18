@@ -1,5 +1,4 @@
 from uuid import UUID
-
 from pydantic import BaseModel, Field
 
 
@@ -13,13 +12,49 @@ class UserInfo(BaseModel):
     username: str
     stocks: list[str]
 
+    # TODO refactor to not have duplicate code
     class Config:
-        allow_population_by_field_name = True
         orm_mode = True
 
 
-class AssetInfo(BaseModel):
+class AssetAdd(BaseModel):
+    ticker: str = Field(description="The ticker symbol for the asset, "
+                                    "which is a unique code used to identify it on a stock exchange.")
+
+
+
+
+class AssetInfoBase(BaseModel):
     ticker: str
-    units: float
     name: str
     country: str
+
+    class Config:
+        orm_mode = True
+
+
+class AssetInfoUser(AssetInfoBase):
+    units: float
+
+
+class AssetInfoPrice(AssetInfoBase):
+    current_price: float
+    currency: str
+    today_low_price: float
+    today_high_price: float
+    open_price: float
+    close_price: float
+    fifty_day_price: float
+    today_low_price: float
+    today_high_price: float
+    open_price: float
+    evolution: float
+
+
+class UserInfo(BaseModel):
+    id: UUID
+    username: str
+    stocks: list[AssetInfoBase]
+
+    class Config:
+        orm_mode = True

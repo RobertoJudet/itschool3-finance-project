@@ -1,14 +1,14 @@
 import json
+from abc import ABC
 
 from domain.user.factory import UserFactory
 from domain.user.persistence_interface import UserPersistenceInterface
 from domain.user.user import User
 
 
-class UserPersistenceFile(UserPersistenceInterface):
+class UserPersistenceFile(UserPersistenceInterface, ABC):
     def __init__(self, file_path: str):
         self.__file_path = file_path
-
 
     def get_all(self) -> list[User]:
         try:
@@ -19,7 +19,6 @@ class UserPersistenceFile(UserPersistenceInterface):
             factory = UserFactory()
             return [factory.make_from_persistence(x) for x in users_info]
         except:
-            #TODO homework log error
             return []
 
     def add(self, user: User):
@@ -30,5 +29,3 @@ class UserPersistenceFile(UserPersistenceInterface):
         file = open(self.__file_path, "w")
         file.write(users_json)
         file.close()
-
-

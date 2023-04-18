@@ -1,5 +1,7 @@
 from uuid import UUID
 
+from domain.asset.asset import Asset
+
 
 class User:
     def __init__(self, uuid: UUID, username: str, stocks: list[str] = None):
@@ -16,5 +18,8 @@ class User:
         return self.__username
 
     @property
-    def stocks(self) -> list[str]:
+    def stocks(self) -> list[Asset]:
         return self.__stocks
+
+    def add_stock(self, stock: Asset):
+        self.__stocks.append(stock)

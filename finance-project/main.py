@@ -38,5 +38,3 @@ if __name__ == "__main__":
         logging.warning("Keyboard interrupt")
     except Exception as e:
         logging.warning("Webserver has stopped. Reason: " + str(e))
-
-
