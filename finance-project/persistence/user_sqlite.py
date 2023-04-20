@@ -34,14 +34,22 @@ class UserPersistenceSqlite(UserPersistenceInterface):
                 cursor.execute(f"INSERT INTO users(id, username) VALUES ('{user.id}','{user.username}')")
             conn.commit()
 
-    def delete(self, uuid: int):
+    def delete_by_id(self, user_id: User.id):
         with sqlite3.connect("main_users.db") as conn:
             cursor = conn.cursor()
-            cursor.execute(f"DELETE FROM users WHERE id = {uuid}")
+            try:
+                cursor.execute(f"DELETE FROM users WHERE id='{user_id}'")
+            except sqlite3.OperationalError as e:
+                raise e
             conn.commit()
 
-    def edit(self, user: User):
+    def edit_by_id(self, user_id: User.id, username: str):
         with sqlite3.connect("main_users.db") as conn:
             cursor = conn.cursor()
-            cursor.execute(f"UPDATE users SET username = '{user.username}' where id = '{user.id}'")
+            try:
+                cursor.execute(
+                    f"UPDATE users SET (username)='{username}' WHERE id='{user_id}'"
+                )
+            except sqlite3.OperationalError as e:
+                raise e
             conn.commit()

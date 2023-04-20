@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Depends
 
 from api.models import UserAdd, UserInfo, AssetInfoUser, AssetAdd
+from domain.asset import repo
 from domain.asset.factory import AssetFactory
 from domain.asset.repo import AssetRepo
 from domain.user.factory import UserFactory
@@ -8,11 +9,12 @@ from domain.user.repo import UserRepo
 from persistence.user_sqlite import UserPersistenceSqlite
 from persistence.user_file import UserPersistenceFile
 
+
 users_router = APIRouter(prefix="/users")
 
 
 def get_user_repo() -> UserRepo:
-    # user_persistence = UserPersistenceFile("main_users.json")
+    user_persistence = UserPersistenceFile("main_users.json")
     user_persistence = UserPersistenceSqlite()
     return UserRepo(user_persistence)
 
@@ -24,6 +26,15 @@ def get_all_users(repo=Depends(get_user_repo)):
 
 @users_router.get("/{user_id}", response_model=UserInfo)
 def get_user(user_id: str, repo=Depends(get_user_repo)):
+    return repo.get_by_id(user_id)
+
+@users_router.delete("/{user_id}")
+def delete_user(user_id: str, repo=Depends(get_user_repo)):
+    repo.delete_by_id(user_id)
+
+@users_router.put("/{user_id}", response_model=UserInfo)
+def edit_by_id(user_id: str, username: str, repo=Depends(get_user_repo)):
+    repo.edit_by_id(user_id, username)
     return repo.get_by_id(user_id)
 
 
@@ -42,9 +53,6 @@ def create_a_user(new_user: UserAdd, repo=Depends(get_user_repo)):
     return user
 
 
-@users_router.delete("")
-def delete_by_username(username: str):
-    pass
 
 
 @users_router.post("/{user_id}/assets", response_model=AssetInfoUser)
