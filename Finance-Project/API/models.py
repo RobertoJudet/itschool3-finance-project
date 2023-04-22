@@ -1,4 +1,5 @@
 from pydantic import BaseModel, Field
+from uuid import UUID
 
 
 class UserAdd(BaseModel):
@@ -6,8 +7,18 @@ class UserAdd(BaseModel):
 
 
 class UserInfo(BaseModel):
+    id: UUID
     username: str
     stocks: list[str]
 
     class Config:
         orm_mode = True
+
+
+class AssetInfo(BaseModel):
+    ticker: str
+    units: float
+    name: str
+    country: str
+    # TODO refactor to not have duplicate code
+    # class Config:

@@ -8,7 +8,7 @@ class UserFactoryTestCase(unittest.TestCase):
         username = "between-6-and-20"
         factory = UserFactory()
 
-        actual_user = factory.make(username)
+        actual_user = factory.make_new(username)
 
         self.assertEqual(username, actual_user.username)
         self.assertEqual(User, type(actual_user))
@@ -18,7 +18,7 @@ class UserFactoryTestCase(unittest.TestCase):
         factory = UserFactory()
 
         with self.assertRaises(InvalidUsername) as context:
-            factory.make(username)
+            factory.make_new(username)
 
         self.assertEqual(
             "Username should have at least 6 characters", str(context.exception)
