@@ -1,9 +1,3 @@
-# Homework 1 for Project
-# implement get, create and delete user in domain too (user repo & user factory)
-# also create api models
-# create tests for repo & factory
-# username should be at least 6 chars and max 20 chars, it can only contain letter, numbers & -
-# save the user list in a file
 import logging
 from fastapi import FastAPI, Request
 from api.users import users_router

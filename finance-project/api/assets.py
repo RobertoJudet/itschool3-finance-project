@@ -8,7 +8,7 @@ from domain.asset.factory import AssetFactory
 assets_router = APIRouter(prefix="/asset")
 
 
-@assets_router.get("/{ticker}", response_model=AssetInfoPrice)
+@assets_router.get("/{ticker}")
 def get_asset(ticker: str):
     asset = AssetFactory().make_new(ticker)
     return asset
