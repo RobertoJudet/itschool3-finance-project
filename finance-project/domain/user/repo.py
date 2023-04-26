@@ -22,7 +22,6 @@ class UserRepo:
         self.__persistence.add(new_user)
         self.__users.append(new_user)
 
-
     def get_all(self) -> list[User]:
         if self.__users is None:
             self.__users = self.__persistence.get_all()

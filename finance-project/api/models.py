@@ -4,6 +4,7 @@ from uuid import UUID
 
 # todo add field with description, aprox half
 
+
 class OrmModel(BaseModel):
     class Config:
         orm_mode = True
