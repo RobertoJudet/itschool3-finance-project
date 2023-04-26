@@ -2,17 +2,9 @@ import sqlite3
 from domain.asset.asset import Asset
 from domain.user.user import User
 
-# Refactor this class
-# extract the sqlite code from here to the persistence layer
-# also create a class which can save these assets in a file with the users
-# this code should have automated tests
-
 
 class AssetRepo:
     def add_to_user(self, user: User, asset: Asset):
-        # TODO homework, what happens if we already have this asset?
-        # sqlite3.IntegrityError: UNIQUE constraint failed: e12bb836_7a3d_4cbc_9253_15179932fc40_assets.ticker
-        # exception, 400 to api already added
         table = f"{user.id}-assets".replace("-", "_")
         with sqlite3.connect(f"main_users.db") as conn:
             cursor = conn.cursor()

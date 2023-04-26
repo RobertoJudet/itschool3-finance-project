@@ -3,12 +3,11 @@ import uuid
 import logging
 from domain.asset.repo import AssetRepo
 from domain.user.factory import UserFactory
-from domain.user.persistance_interface import UserPersistenceInterface
+from domain.user.persistence_interface import UserPersistenceInterface
 from domain.user.user import User
 
 
 class UserPersistenceFile(UserPersistenceInterface):
-
     def __init__(self, file_path: str):
         self.__file_path = file_path
 

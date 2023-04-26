@@ -10,6 +10,7 @@ class Asset:
         self.__sector = sector
         yfin = yfinance.Ticker(ticker)
         self.__info = yfin.fast_info
+        # print(self.__yfin.fast_info)
 
     @property
     def ticker(self) -> str:
@@ -37,7 +38,7 @@ class Asset:
         return self.__info["currency"]
 
     @property
-    def close_price(self) -> float:
+    def closed_price(self) -> float:
         return self.__info["previousClose"]
 
     @property
