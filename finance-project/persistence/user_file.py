@@ -7,6 +7,10 @@ from domain.user.persistence_interface import UserPersistenceInterface
 from domain.user.user import User
 
 
+class FailedToWriteInPersistence:
+    pass
+
+
 class UserPersistenceFile(UserPersistenceInterface):
     def __init__(self, file_path: str):
         self.__file_path = file_path
@@ -45,11 +49,15 @@ class UserPersistenceFile(UserPersistenceInterface):
 
     def delete_by_id(self, uid: str):
         current_users = self.get_all()
-        users_without_id = [u for u in current_users if u.id != uuid.UUID(hex=uid)]
-        users_info = [(str(x.id), x.username, x.stocks) for x in users_without_id]
+        updated_user_list = [u for u in current_users if u.id != uuid.UUID(hex=uid)]
+        users_info = [(str(x.id), x.username, x.stocks) for x in updated_user_list]
         json_current_users = json.dumps(users_info)
-        with open(self.__file_path, "w") as f:
-            f.write(json_current_users)
+        try:
+            with open(self.__file_path, "w") as file:
+                file.write(json_current_users)
+        except FailedToWriteInPersistence as e:
+            logging.error("Could not write user info to persistence. Error: " + str(e))
+            raise e
 
     def edit(self, user_id: str, username: str):
         current_users = self.get_all()

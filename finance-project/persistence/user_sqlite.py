@@ -1,4 +1,5 @@
 import sqlite3
+import logging
 from domain.user.persistence_interface import UserPersistenceInterface
 from domain.user.user import User
 from domain.user.factory import UserFactory
@@ -41,7 +42,14 @@ class UserPersistenceSqlite(UserPersistenceInterface):
             conn.commit()
 
     def delete_by_id(self, uid: str):
-        pass
+        with sqlite3.connect("main_users.db") as conn:
+            cursor = conn.cursor()
+            try:
+                cursor.execute(f"DELETE FROM users WHERE id='{uid}'")
+            except sqlite3.OperationalError as e:
+                logging.error(f"Error: " + str(e))
+                raise e
+            conn.commit()
 
     def get_by_id(self, uid: str) -> User:
         pass
