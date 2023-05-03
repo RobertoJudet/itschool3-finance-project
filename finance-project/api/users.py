@@ -7,6 +7,7 @@ from domain.user.repo import UserRepo
 from api.models import UserAdd, UserInfo, AssetInfoUser, AssetAdd
 from persistence.user_file import UserPersistenceFile
 from persistence.user_sqlite import UserPersistenceSqlite
+import logging
 
 users_router = APIRouter(prefix="/users")
 
@@ -58,7 +59,13 @@ def delete_user(user_id: str, repo=Depends(get_user_repo)):
 
 @users_router.post("", response_model=UserInfo)
 def create_a_user(new_user: UserAdd, repo=Depends(get_user_repo)):
+    logging.info("Creating user...")
     user = UserFactory().make_new(new_user.username)
+    try:
+        repo.add(user)
+        logging.info("Successfully created...")
+    except Exception as e:
+        logging.error("Could not create. Reason: " + str(e))
     repo.add(user)
     return user
 
