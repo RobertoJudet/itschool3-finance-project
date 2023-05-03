@@ -6,6 +6,18 @@ class InvalidUsername(Exception):
     pass
 
 
+class DuplicateAsset(Exception):
+    pass
+
+
+class InvalidTicker(Exception):
+    pass
+
+
+class DuplicateUser(Exception):
+    pass
+
+
 class UserFactory:
     def make_new(self, username: str) -> User:
         if len(username) < 6:

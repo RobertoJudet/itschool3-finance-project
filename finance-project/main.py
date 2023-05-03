@@ -8,6 +8,7 @@ from api.users import users_router
 from api.assets import assets_router
 from domain.user.factory import InvalidUsername
 from starlette.responses import JSONResponse
+from domain.user.factory import InvalidTicker, DuplicateAsset, DuplicateUser
 
 logging.basicConfig(
     filename="finance.log",
@@ -30,6 +31,28 @@ app.include_router(assets_router)
 def return_invalid_username(_: Request, e: InvalidUsername):
     return JSONResponse(
         status_code=400, content="Username is not valid. Error: " + str(e)
+    )
+
+
+@app.exception_handler(InvalidTicker)
+def return_invalid_ticker(_: Request, e: InvalidTicker):
+    logging.error(str(e))
+    return JSONResponse(status_code=400, content="Invalid ticker. Error: " + str(e))
+
+
+@app.exception_handler(DuplicateAsset)
+def return_duplicate_asset(_: Request, e: DuplicateAsset):
+    logging.error(str(e))
+    return JSONResponse(
+        status_code=400, content="The user already have this asset. Error :" + str(e)
+    )
+
+
+@app.exception_handler(DuplicateUser)
+def return_duplicate_user(_: Request, e: DuplicateUser):
+    logging.warning(str(e))
+    return JSONResponse(
+        status_code=400, content="We can't have the same user twice. Error :" + str(e)
     )
 
 
