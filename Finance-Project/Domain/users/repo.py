@@ -8,13 +8,11 @@ class UserRepo:
     def __init__(self, file_path: str):
         self.file_path = file_path
         self.__load(file_path)
+        self.__users = []
 
     def add(self, new_user: User):
         self.__users.append(new_user)
-        users_info = [(str(x.id), x.username, x.stocks) for x in self.__users]
-        users_json = json.dumps(users_info)
-        with open(self.file_path, "w") as file:
-            file.write(users_json)
+        self.write_to_file()
 
     def get_all(self) -> list[User]:
         return self.__users
@@ -34,3 +32,12 @@ class UserRepo:
         except:
             # TODO thursday logging
             self.__users = []
+
+    def write_to_file(self):
+        users_info = [(str(x.id), x.username, x.stocks) for x in self.__users]
+        users_json = json.dumps(users_info)
+        with open(self.file_path, "w") as file:
+            file.write(users_json)
+
+
+

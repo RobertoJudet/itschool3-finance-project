@@ -1,9 +1,11 @@
-from fastapi import APIRouter, HTTPException
+import uuid
+
+from fastapi import APIRouter
 
 from Domain.Asset.factory import AssetFactory
 from Domain.users.factory import UserFactory
 from Domain.users.repo import UserRepo
-from API.models import UserAdd, UserInfo, AssetInfo
+from API.models import UserAdd, UserInfo, AssetInfoUser
 
 users_router = APIRouter(prefix="/users")
 
@@ -32,9 +34,7 @@ def create_a_user(new_user: UserAdd):
 
 # TODO delete a user, DELETE /users/{user_id}
 
-
-# TODO fix API, return asset info
-@users_router.post("/{user_id}/assets", response_model=AssetInfo)
+@users_router.post("/{user_id}/assets", response_model=AssetInfoUser)
 def add_asset_to_user(user_id: str, ticker: str):
     asset = AssetFactory().make_new(ticker)
     print(asset.__dict__)
