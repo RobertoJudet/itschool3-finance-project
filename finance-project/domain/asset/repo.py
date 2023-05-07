@@ -9,16 +9,22 @@ class AssetRepo:
         with sqlite3.connect(f"main_users.db") as conn:
             cursor = conn.cursor()
             try:
-                cursor.execute(f"INSERT INTO '{table}' (ticker, name, country, units) "
-                               f"VALUES ('{asset.ticker}', '{asset.name}', "
-                               f"'{asset.country}', {asset.units})")
+                cursor.execute(
+                    f"INSERT INTO '{table}' (ticker, name, country, units) "
+                    f"VALUES ('{asset.ticker}', '{asset.name}', "
+                    f"'{asset.country}', {asset.units})"
+                )
             except sqlite3.OperationalError:
-                cursor.execute(f"CREATE TABLE '{table}' "
-                               f"(ticker TEXT PRIMARY KEY, "
-                               f"name TEXT, country TEXT, units REAL)")
-                cursor.execute(f"INSERT INTO '{table}' (ticker, name, country, units) "
-                               f"VALUES ('{asset.ticker}', '{asset.name}', "
-                               f"'{asset.country}', {asset.units})")
+                cursor.execute(
+                    f"CREATE TABLE '{table}' "
+                    f"(ticker TEXT PRIMARY KEY, "
+                    f"name TEXT, country TEXT, units REAL)"
+                )
+                cursor.execute(
+                    f"INSERT INTO '{table}' (ticker, name, country, units) "
+                    f"VALUES ('{asset.ticker}', '{asset.name}', "
+                    f"'{asset.country}', {asset.units})"
+                )
             conn.commit()
 
     def get_for_user(self, user: User) -> list[Asset]:
