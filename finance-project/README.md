@@ -2,21 +2,18 @@
 
 Final project for ItSchool course, Python - Intro To Programming.
 
-
 For Windows, steps to deploy:
+
 ```
 git clone <git_repo_url>
 cd itschool3-finance-project
-python -m venv env/
-.\env\Scripts\activate
+python3 -m venv env/
+env\Scripts\activate
 pip install --upgrade pip
 pip install -r requirements.txt
 
 ```
 
- This project uses FastApi & uvicorn.
+This project uses FastAPI & uvicorn.
 
-FastAPI docs: https://fastapi.tiangolo.com/
-
-
-
+FastAPI docs : https://fastapi.tiangolo.com/
