@@ -1,14 +1,16 @@
+import os
 import unittest
 
 from domain.user.factory import UserFactory
 from domain.user.repo import UserRepo
+from persistence.user_file import UserPersistenceFile
 
 
 class UserRepositoryTestCase(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
         cls.users_file = "test_users.json"
-        cls.repo = UserRepo(cls.users_file)
+        cls.repo = UserPersistenceFile(cls.users_file)
 
     def test_it_adds_a_user(self):
         expected_username = "a-username"
@@ -28,6 +30,9 @@ class UserRepositoryTestCase(unittest.TestCase):
 
         self.assertEqual(1, len(actual_users))
 
+@classmethod
+def tearDownClass(cls) -> None:
+    os.remove("test_users.json")
 
 if __name__ == "__main__":
     unittest.main()
