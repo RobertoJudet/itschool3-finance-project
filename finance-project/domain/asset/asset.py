@@ -58,10 +58,17 @@ class Asset:
         return self.__info["open"]
 
     @property
-    def up_or_down_percentage(self) -> float:
-        x = self.__info["open"]
-        y = self.__info["previousClose"]
-        if x > y:
-            return -x / y
-        else:
-            return x / y
+    def up_or_down_percentage(self) -> str:
+        difference = self.closed_price - self.current_price
+        percentage_difference = (difference / self.closed_price) * 100
+        if difference > 0:
+            return (
+                f"The closed price {self.closed_price} is {percentage_difference:.2f}%"
+                f" higher than current price {self.current_price}"
+            )
+        elif difference < 0:
+            return (
+                f"The closed price {self.closed_price} is {abs(percentage_difference):.2f}%"
+                f" lower than current price {self.current_price}"
+            )
+        return "Values are the same"
