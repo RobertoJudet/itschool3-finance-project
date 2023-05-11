@@ -37,6 +37,11 @@ def get_user_repo() -> UserRepo:
     return UserRepo(user_persistence)
 
 
+def get_asset_repo() -> AssetRepo:
+    asset_persistence = set_asset_persistence_type("configuration/config.json")
+    return AssetRepo(asset_persistence)
+
+
 @users_router.get("", response_model=list[UserInfo])
 def get_all_users(repo=Depends(get_user_repo)):
     return repo.get_all()
