@@ -51,5 +51,17 @@ class UserPersistenceSqlite(UserPersistenceInterface):
                 raise e
             conn.commit()
 
+    def edit(self, user_id: str, new_username: str):
+        with sqlite3.connect("main_users.db") as conn:
+            cursor = conn.cursor()
+            try:
+                cursor.execute(
+                    f"UPDATE users SET (username)='{new_username}' WHERE id='{user_id}'"
+                )
+            except sqlite3.OperationalError as e:
+                logging.error("Could not update database, reason: " + str(e))
+                raise e
+            conn.commit()
+
     def get_by_id(self, uid: str) -> User:
         pass

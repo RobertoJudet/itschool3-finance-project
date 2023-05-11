@@ -66,5 +66,8 @@ class UserPersistenceFile(UserPersistenceInterface):
                 user.username = username
         users_info = [(str(u.id), u.username, u.stocks) for u in current_users]
         users_json = json.dumps(users_info)
-        with open(self.__file_path, "w") as f:
-            f.write(users_json)
+        try:
+            with open(self.__file_path, "w") as f:
+                f.write(users_json)
+        except FailedToWriteInPersistence as e:
+            logging.error("Could not update file. Error: " + str(e))
