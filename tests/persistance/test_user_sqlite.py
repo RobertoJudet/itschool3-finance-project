@@ -85,6 +85,5 @@ class TestUserPersistenceSqlite(unittest.TestCase):
             conn.commit()
 
 
-
 if __name__ == "__main__":
     unittest.main()
