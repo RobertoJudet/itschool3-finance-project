@@ -19,5 +19,5 @@ def set_persistence_type(file_path):
             return UserPersistenceFile("main_users.json")
         else:
             raise InvalidPersistence(
-                "Unknown persistence type, choose between sqlite or file in config.json"
+                "Unknown persistence type, chose between sqlite or file in config.json"
             )
