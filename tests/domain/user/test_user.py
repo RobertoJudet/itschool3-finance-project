@@ -10,7 +10,7 @@ class UserTestCase(unittest.TestCase):
         username = "random generate"
         user = User(username)
         # execution
-        actual_username = user.username
+        actual_username = user.__username
 
         #assertion
         self.assertEqual(username, actual_username)
@@ -25,7 +25,7 @@ class UserTestCase(unittest.TestCase):
         self.assertEqual([], actual_stocks)
 
 
-    def test_it_sets_the_stock_we_give(self): ("TODO Homework")
+    def test_it_sets_the_stock_we_give(self):
         # set  a list of 3 strings
         # set up
         stocks = ["user1", "user2", "user3"]

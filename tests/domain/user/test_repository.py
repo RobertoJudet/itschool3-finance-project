@@ -1,16 +1,19 @@
 import os
 import unittest
 
+from pandas.conftest import cls
+
 from domain.user.factory import UserFactory
 from domain.user.repo import UserRepo
 from persistence.user_file import UserPersistenceFile
 
 
+def tearDownClass(cls) -> None:
+    os.remove("test_users.json")
+
+
 class UserRepositoryTestCase(unittest.TestCase):
-    @classmethod
-    def setUpClass(cls) -> None:
-        cls.users_file = "test_users.json"
-        cls.repo = UserPersistenceFile(cls.users_file)
+    users_file = None
 
     def test_it_adds_a_user(self):
         expected_username = "a-username"
@@ -20,19 +23,22 @@ class UserRepositoryTestCase(unittest.TestCase):
 
         actual_users = self.repo.get_all()
 
-        self.assertEqual(1, len(actual_users))
-        self.assertEqual(expected_username, actual_users[0].username)
+        self.assertEqual(expected_username, actual_users[1].username)
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        cls.users_file = "test_users.json"
+        cls.repo = UserPersistenceFile(cls.users_file)
 
     def test_it_reads_a_user_from_the_system(self):
         repo = UserRepo(self.users_file)
 
         actual_users = self.repo.get_all()
 
-        self.assertEqual(1, len(actual_users))
+        self.assertEqual(repo, len(actual_users))
 
-@classmethod
-def tearDownClass(cls) -> None:
-    os.remove("test_users.json")
+
+
 
 if __name__ == "__main__":
     unittest.main()
