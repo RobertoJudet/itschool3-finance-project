@@ -7,7 +7,7 @@ class InvalidUsername(Exception):
 
 
 class UserFactory:
-    # username should be at least 6 chars and max 20 chars, it can only contain letter, number & -
+
     def make_new(self, username: str) -> User:
         if len(username) < 6 or len(username) > 20:
             raise InvalidUsername("Username should have between 6 and 20 characters")

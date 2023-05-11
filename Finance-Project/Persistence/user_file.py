@@ -1,11 +1,12 @@
 import json
+from abc import ABC
 
 from Domain.users.factory import UserFactory
 from Domain.users.persistance_interface import UserPersistenceInterface
 from Domain.users.user import User
 
 
-class UserPersistenceFile(UserPersistenceInterface):
+class UserPersistenceFile(UserPersistenceInterface, ABC):
     def __init__(self, file_path: str):
         self.__file_path = file_path
 
@@ -25,6 +26,6 @@ class UserPersistenceFile(UserPersistenceInterface):
         users_dict = [u.to_dict() for u in self.__users]
         users_dict.append(user.to_dict())
 
-        # Write the list of users to file
+        
         with open(self.__file_path, "w") as f:
             json.dump(users_dict, f)

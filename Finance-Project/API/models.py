@@ -5,6 +5,9 @@ from uuid import UUID
 class UserAdd(BaseModel):
     username: str = Field(description="Alphanumeric username between 6 and 20 chars")
 
+class AssetAdd(BaseModel):
+        ticker: str
+
 class BaseInfo(BaseModel):
     class Config:
         orm_mode = True
